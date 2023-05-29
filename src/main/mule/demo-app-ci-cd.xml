@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="demo-app-ci-cdFlow" doc:id="52e188ec-ea17-45a1-9bc0-ae9aa1df7b38" >
+		<http:listener doc:name="Listener" doc:id="2721a767-81a0-4695-8e03-6d96c5cc9a9b" config-ref="HTTP_Listener_config" path="/demo">
+			<http:response statusCode="#[vars.httpStatus default 200]" />
+			<http:error-response statusCode="#[vars.httpStatus default 500]" />
+		</http:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="4de83fdc-bd3d-44d6-ad87-c2f6b749bb79" message='#["Request received - " ++ now() as String {format: "y-MM-dd - hh:m:s"}]'/>
+		<flow-ref doc:name="Flow Reference" doc:id="98c3e72b-b57e-4ea1-9f15-5c0c608c8765" name="subFlow"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="58751d8e-50be-408c-82c2-db567a1be20d" />
+		<set-variable value="200" doc:name="Set Variable" doc:id="c4cc308d-570b-4a93-b147-e830eeb5d2da" variableName="httpStatus"/>
+		<logger level="INFO" doc:name="Logger" doc:id="06c23df5-73ce-44b6-aca8-eee9abf62e7a" message='#["Response sent - " ++ now() as String {format: "y-MM-dd - hh:m:s"}]'/>
+	</flow>
+	<sub-flow name="subFlow" doc:id="55035182-9249-44a8-98cb-a54b6127a047" >
+		<ee:transform doc:name="Transform Message" doc:id="248ac829-b147-406e-ba55-292027c3db5b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"correlationId": correlationId,
+	"status": "Success",
+	"message": "Response from demo-app-ci-cd app",
+	"timeStamp": now() as String {format: "y-MM-dd - hh:m:s"}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
