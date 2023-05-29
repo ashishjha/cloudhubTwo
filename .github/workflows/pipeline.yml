@@ -111,6 +111,7 @@ jobs:
         artifactName=$(ls *.jar | head -1)
         mvn deploy -DmuleDeploy \
          -Dmule.artifact=$artifactName \
+         -DskipDeploymentVerification=true \
          -s .maven/settings.xml \
-         -DskipTests \
-         -DskipDeploymentVerification=true
+         -DskipTests
+         
