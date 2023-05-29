@@ -10,6 +10,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CA_CLIENT_ID: ${{ secrets.CA_CLIENT_ID }}
+      CA_CLIENT_SECRET: ${{ secrets.CA_CLIENT_SECRET }}
     
     steps:
     
@@ -52,6 +55,9 @@ jobs:
   upload:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      CA_CLIENT_ID: ${{ secrets.CA_CLIENT_ID }}
+      CA_CLIENT_SECRET: ${{ secrets.CA_CLIENT_SECRET }}
 
     steps:    
     
@@ -81,6 +87,9 @@ jobs:
   deploy:
     needs: upload
     runs-on: ubuntu-latest
+    env:
+      CA_CLIENT_ID: ${{ secrets.CA_CLIENT_ID }}
+      CA_CLIENT_SECRET: ${{ secrets.CA_CLIENT_SECRET }}
 
     steps:    
     
