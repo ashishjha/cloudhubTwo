@@ -6,7 +6,7 @@
 
 	<groupId>2acb2b8c-6048-4988-87dd-7f7f49d0a7ac</groupId>
 	<artifactId>demo-app-ci-cd</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<packaging>mule-application</packaging>
 
 	<name>demo-app-ci-cd</name>
@@ -42,6 +42,7 @@
 						<applicationName>ashish-demo-app-ci-cd</applicationName>
 						<replicas>1</replicas>
 						<vCores>0.1</vCores>
+						<skipDeploymentVerification>${skipDeploymentVerification}</skipDeploymentVerification>
 						<!-- <connectedAppClientId>${client_id}</connectedAppClientId>
 						<connectedAppClientSecret> ${client_secret}</connectedAppClientSecret>
 						<connectedAppGrantType>client_credentials</connectedAppGrantType> -->
